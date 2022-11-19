@@ -2,6 +2,9 @@
 
 namespace Companion.Modules.Extensions.FinancialModule.DTOs
 {
+	/// <summary>
+	/// This class is only for communicating with IEX
+	/// </summary>
 	public class IEXTickerQuote
 	{
 		[JsonPropertyName("companyName")]
@@ -14,6 +17,7 @@ namespace Companion.Modules.Extensions.FinancialModule.DTOs
 		public string? Delay { get; set; }
 
 		[JsonPropertyName("latestPrice")]
-		public string? LatestPrice { get; set; }
+		public double? LatestPrice { get; set; }
+
 	}
 }

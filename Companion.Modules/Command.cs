@@ -27,8 +27,7 @@ namespace Companion.Modules
 
 		public void ExecuteCommand(string[] commandText)
 		{
-			// Skip the first command since that is a module identifier
-			_executionLogic(commandText.Skip(1).ToArray());
+			_executionLogic(commandText);
 		}
 
 		public void Print()

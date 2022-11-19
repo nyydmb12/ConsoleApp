@@ -5,20 +5,18 @@
 	/// </summary>
 	public class WelcomeModule : ModuleBase
 	{
-		private static string _helpCommand = "-help";
-
-		public WelcomeModule()
+		public WelcomeModule(string moduleKeyword) : base(moduleKeyword)
 		{
 			_availableCommands.AddCommand(new Command(_helpCommand, "Print all commands and their descriptions.", (commandText) => _availableCommands.PrintAvailableCommands()));
 		}
 
-		public override bool ExecuteCommand(string[] commandText)
+		public override bool ExecuteCommand(UserRequest userRequest)
 		{
-			var wasCommandExecuted = base.ExecuteCommand(commandText);
+			var wasCommandExecuted = base.ExecuteCommand(userRequest);
 
 			if (!wasCommandExecuted)
 			{
-				base.ExecuteCommand(new string[] { _helpCommand });
+				base.ExecuteCommand(new UserRequest() { CommandName = _helpCommand });
 			}
 
 			return wasCommandExecuted;
