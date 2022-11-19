@@ -35,6 +35,7 @@ namespace Companion.Modules
 
 		public void PrintAvailableCommands()
 		{
+			Console.WriteLine($"These are the avaialable commands:");
 			_availableCommands.ForEach(command => command.Print());
 		}
 	}

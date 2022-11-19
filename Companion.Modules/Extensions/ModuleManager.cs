@@ -18,7 +18,8 @@
 			{
 				if (userRequest.ModuleName == ModuleBase._helpCommand)
 				{
-					modules.ForEach(module => Console.WriteLine($"These are the avaialable modules: {module.GetModuleKeyword()}"));
+					Console.WriteLine($"These are the avaialable modules:");
+					modules.ForEach(module => Console.WriteLine(module.GetModuleKeyword()));
 				}
 				else
 				{
