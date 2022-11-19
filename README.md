@@ -3,14 +3,15 @@ Develop a console application that is extensible and provides quick access to de
 
 ##Requirements
 1. Must support the following keywords
-  - -help
+  - help
     - This will provide a list of available commands
-  - -exit
+  - exit
     - This will exist the console application
 
 2. Retreive stock quotes
-    - User will enter the command -stockQuote ticker name 
+    - User will enter the command "quote {ticker name}" 
     - The desktop companinion will return the stock price
     - Implement support the ability to swap out stock quote providers
     - Implement two stock quote providers. 
+
   
