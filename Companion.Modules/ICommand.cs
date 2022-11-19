@@ -2,7 +2,7 @@
 {
 	public interface ICommand
 	{
-		void ExecuteCommand();
+		void ExecuteCommand(string[] commandParameters);
 		bool IsExecutionCommandMatch(string commandText);
 		void Print();
 	}

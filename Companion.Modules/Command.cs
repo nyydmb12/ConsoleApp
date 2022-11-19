@@ -11,9 +11,9 @@ namespace Companion.Modules
 
 		private string _description;
 
-		private Action _executionLogic;
+		private Action<string[]> _executionLogic;
 
-		public Command(string commandName, string description, Action executionLogic)
+		public Command(string commandName, string description, Action<string[]> executionLogic)
 		{
 			_commandName = commandName;
 			_description = description;
@@ -25,9 +25,9 @@ namespace Companion.Modules
 			return string.Compare(_commandName, commandText, true) == 0;
 		}
 
-		public void ExecuteCommand()
+		public void ExecuteCommand(string[] commandText)
 		{
-			_executionLogic();
+			_executionLogic(commandText);
 		}
 
 		public void Print()

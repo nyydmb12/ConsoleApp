@@ -21,7 +21,7 @@
 			return false;
 		}
 
-		public void ExecuteCommand()
+		public void ExecuteCommand(string[] commandText)
 		{
 			Print();
 		}
