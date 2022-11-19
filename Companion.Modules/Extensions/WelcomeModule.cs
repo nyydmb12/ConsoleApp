@@ -9,16 +9,16 @@
 
 		public WelcomeModule()
 		{
-			_availableCommands.AddCommand(new Command(_helpCommand, "Print all commands and their descriptions.", () => _availableCommands.PrintAvailableCommands()));
+			_availableCommands.AddCommand(new Command(_helpCommand, "Print all commands and their descriptions.", (commandText) => _availableCommands.PrintAvailableCommands()));
 		}
 
-		public override bool ExecuteCommand(string commandText)
+		public override bool ExecuteCommand(string[] commandText)
 		{
 			var wasCommandExecuted = base.ExecuteCommand(commandText);
 
 			if (!wasCommandExecuted)
 			{
-				base.ExecuteCommand(_helpCommand);
+				base.ExecuteCommand(new string[] { _helpCommand });
 			}
 
 			return wasCommandExecuted;

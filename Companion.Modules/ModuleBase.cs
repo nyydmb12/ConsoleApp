@@ -12,10 +12,10 @@
 		/// </summary>
 		/// <param name="commandText">the users input</param>
 		/// <returns>True if the command was found and executed, otherwise returns false.</returns>
-		public virtual bool ExecuteCommand(string commandText)
+		public virtual bool ExecuteCommand(string[] commandText)
 		{
-			var command = _availableCommands.GetCommand(commandText);
-			command.ExecuteCommand();
+			var command = _availableCommands.GetCommand(commandText[0]);
+			command.ExecuteCommand(commandText);
 
 			return command is Command;
 		}
