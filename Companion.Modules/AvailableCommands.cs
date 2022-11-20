@@ -1,8 +1,11 @@
 ﻿namespace Companion.Modules
 {
+	/// <summary>
+	/// Contains a list of all available commands for a modual. 
+	/// Also gets the command when called upon.
+	/// </summary>
 	public class AvailableCommands
 	{
-		// Todo: Create ICommand and create Null command object
 		private List<ICommand> _availableCommands = new List<ICommand>();
 
 		public AvailableCommands()

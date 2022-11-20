@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace Companion.Modules.Extensions.FinancialModule.Providers
 {
+	/// <summary>
+	/// This class with communicate with IEX to get stock quotes. Trial ends in 1 month!
+	/// </summary>
 	public class IEXProvider : IFinancialProvider
 	{
 		// This is public key with limited permissions

@@ -1,14 +1,16 @@
-﻿using ApplicationSettings;
-using Companion.Modules.Extensions.InstantMessaging.DTOs;
+﻿using Companion.Modules.Extensions.InstantMessaging.DTOs;
 using System.Collections.Concurrent;
 
 namespace Companion.Modules.Extensions.InstantMessaging.POCOs
 {
+	/// <summary>
+	/// This class will manage the users message inbox
+	/// </summary>
 	public class MessageInbox
 	{
 		private ConcurrentDictionary<Guid, IInstantMessage> _messageInbox;
 
-		public Action _inboxObserver { private get; set; }
+		public Action? _inboxObserver { private get; set; }
 
 		public MessageInbox()
 		{

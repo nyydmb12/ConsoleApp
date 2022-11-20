@@ -28,6 +28,9 @@ namespace Companion.Modules.Extensions.InstantMessaging
 			_messageInbox._inboxObserver = () => NotifyOnMessageReceived();
 		}
 
+		/// <summary>
+		/// This method is an observer on the inbox
+		/// </summary>
 		private void NotifyOnMessageReceived()
 		{
 			Console.WriteLine("New Message received.");

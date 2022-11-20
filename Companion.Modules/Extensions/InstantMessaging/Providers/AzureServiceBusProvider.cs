@@ -4,13 +4,14 @@ using Azure.Messaging.ServiceBus.Administration;
 
 namespace Companion.Modules.Extensions.InstantMessaging.Providers
 {
+	/// <summary>
+	/// This class contains all the commands needed for interacting directly with the service bus.
+	/// </summary>
 	public class AzureServiceBusProvider
 	{
 		private ServiceBusClient _client;
 
 		private ServiceBusAdministrationClient _adminClient;
-
-		//private const string _connectionString = "Endpoint=sb://extensibledesktopcompanion.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=TTD31DBF3EkMLdNBMhlOeUD35cH2YDl9FH0/rHgyDm0=";
 
 		private AppSettings _appSettings;
 

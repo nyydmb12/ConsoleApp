@@ -2,6 +2,9 @@
 
 namespace Companion.Modules
 {
+	/// <summary>
+	/// This provides some basic logging to the event log. Ideally would use a logger implementing Ilogger.
+	/// </summary>
 	public class EventLogger
 	{
 		public static void WriteErrorToEventLog(string message)

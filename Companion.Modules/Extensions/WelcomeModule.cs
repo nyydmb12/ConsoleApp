@@ -1,7 +1,7 @@
 ﻿namespace Companion.Modules.Extensions
 {
 	/// <summary>
-	/// This class introduces the help command, and will be inherited by more advanced modules.
+	/// This class introduces the help and exit command, and will be inherited by more advanced modules.
 	/// </summary>
 	public class WelcomeModule : ModuleBase
 	{

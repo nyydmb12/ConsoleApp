@@ -4,7 +4,7 @@ using System.Text.Json;
 namespace Companion.Modules.Extensions.FinancialModule.Providers
 {
 	/// <summary>
-	/// This api is rate limited at 5 requests per miniute.
+	/// This api is rate limited at 5 requests per miniute. It will communicate with Alpha Advantage.
 	/// </summary>
 	public class AlphaAdvantageProvider : IFinancialProvider
 	{
