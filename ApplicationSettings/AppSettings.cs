@@ -5,7 +5,7 @@ namespace ApplicationSettings
 	public class AppSettings
 	{
 		[JsonPropertyName("appData")]
-		public AppData? AppData { get; set; }
+		public AppData AppData { get; set; }
 
 		public AppSettings()
 		{

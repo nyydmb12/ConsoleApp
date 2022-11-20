@@ -1,4 +1,4 @@
-﻿using Companion.Modules.Extensions.FinancialModule.DTOs;
+﻿using Companion.Modules.Extensions.FinancialModule.POCOs;
 using System.Text.Json;
 
 namespace Companion.Modules.Extensions.FinancialModule.Providers
@@ -24,8 +24,9 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 			return modulePostFix;
 		}
 
-		public async void GetTickerPrice(string[] inputParams)
+		public async Task<ITickerQuote> GetTickerPrice(string[] inputParams)
 		{
+			var tickerQuote = new POCOs.AlphaAdvantageQuote();
 			try
 			{
 				if (inputParams.Any())
@@ -33,13 +34,13 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 					var tickerName = inputParams[0];
 					await using Stream stream = await _httpClient.GetStreamAsync(string.Format(tickerQuoteEndpont, tickerName, iexToken));
 					using var streamReader = new StreamReader(stream);
-					var jsonDocument  = JsonDocument.Parse(await streamReader.ReadToEndAsync());
+					var jsonDocument = JsonDocument.Parse(await streamReader.ReadToEndAsync());
 					var wrapperObject = jsonDocument.RootElement.GetProperty("Global Quote");
-					var alphaAdvantageQuote = wrapperObject.Deserialize<AlphaAdvantageQuote>();
+					var alphaAdvantageQuote = wrapperObject.Deserialize<DTOs.AlphaAdvantageQuote>();
 
 					if (alphaAdvantageQuote != null && !string.IsNullOrWhiteSpace(alphaAdvantageQuote?.Symbol))
 					{
-						new POCOs.AlphaAdvantageQuote(alphaAdvantageQuote).WriteToConsole();
+						tickerQuote = new POCOs.AlphaAdvantageQuote(alphaAdvantageQuote);
 					}
 					else
 					{
@@ -56,6 +57,7 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 				Console.WriteLine("Exception occured processing Alpha Advantage request");
 			}
 
+			return tickerQuote;
 		}
 
 	}

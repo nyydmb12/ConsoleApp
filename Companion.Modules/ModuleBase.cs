@@ -6,6 +6,7 @@
 	public abstract class ModuleBase : IModuleBase
 	{
 		public static string _helpCommand = "help";
+		public static string _exitCommand = "exit";
 
 		private string ModuleKeyword;
 
@@ -31,7 +32,7 @@
 			// Only pass in the module identifier
 			var command = _availableCommands.GetCommand(userRequest.CommandName);
 			command.ExecuteCommand(userRequest.CommandParameters);
-
+			// If the type is Command then a command was found to run
 			return command is Command;
 		}
 	}

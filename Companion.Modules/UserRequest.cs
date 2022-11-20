@@ -16,7 +16,7 @@
 
 		public UserRequest(string userInput)
 		{
-			var userInputArray = userInput.Split(' ');
+			var userInputArray = userInput.Split(' ', StringSplitOptions.TrimEntries);
 			ModuleName = userInputArray.ElementAtOrDefault(0) ?? string.Empty;
 			CommandName = userInputArray.ElementAtOrDefault(1) ?? string.Empty;
 			CommandParameters = userInputArray.Length > 2 ? userInputArray.Skip(2).ToArray() : new string[0];

@@ -1,4 +1,4 @@
-﻿using Companion.Modules.Extensions.FinancialModule.DTOs;
+﻿using Companion.Modules.Extensions.FinancialModule.POCOs;
 using System.Text.Json;
 
 namespace Companion.Modules.Extensions.FinancialModule.Providers
@@ -23,8 +23,9 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 			return modulePostFix;
 		}
 
-		public async void GetTickerPrice(string[] inputParams)
+		public async Task<ITickerQuote> GetTickerPrice(string[] inputParams)
 		{
+			var tickerQuote = new POCOs.IEXTickerQuote();
 			try
 			{
 				if (inputParams.Any())
@@ -32,11 +33,11 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 					var tickerName = inputParams[0];
 					await using Stream stream = await _httpClient.GetStreamAsync(string.Format(tickerQuoteEndpont, tickerName, iexToken));
 					using var streamReader = new StreamReader(stream);
-					var iexTickerQuote = JsonSerializer.Deserialize<IEXTickerQuote[]>(stream);
+					var iexTickerQuote = JsonSerializer.Deserialize<DTOs.IEXTickerQuote[]>(stream);
 
 					if (iexTickerQuote != null && !string.IsNullOrWhiteSpace(iexTickerQuote[0].CompanyName))
 					{
-						new POCOs.IEXTickerQuote(iexTickerQuote[0]).WriteToConsole();
+						tickerQuote = new POCOs.IEXTickerQuote(iexTickerQuote[0]);
 					}
 					else
 					{
@@ -52,6 +53,8 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 			{
 				Console.WriteLine("Exception occured processing IEX request");
 			}
+
+			return tickerQuote;
 		}
 	}
 }

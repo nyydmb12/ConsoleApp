@@ -1,7 +1,6 @@
 ﻿using ApplicationSettings;
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
-using System.Diagnostics;
 
 namespace Companion.Modules.Extensions.InstantMessaging.Providers
 {
