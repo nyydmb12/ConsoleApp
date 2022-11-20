@@ -31,7 +31,7 @@
 			// Only pass in the module identifier
 			var command = _availableCommands.GetCommand(userRequest.CommandName);
 			command.ExecuteCommand(userRequest.CommandParameters);
-
+			// If the type is Command then a command was found to run
 			return command is Command;
 		}
 	}

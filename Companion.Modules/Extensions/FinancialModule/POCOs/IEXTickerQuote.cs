@@ -2,30 +2,37 @@
 
 namespace Companion.Modules.Extensions.FinancialModule.POCOs
 {
-	public class IEXTickerQuote
+	public class IEXTickerQuote : ITickerQuote
 	{
-		private string? CompanyName { get; set; }
+		public string? CompanyName { get; }
 
-		private double? ChangePercent { get; set; }
+		public string? ChangePercent { get; }
 
-		private string? Delay { get; set; }
+		public string? LastestTradingDay { get; }
 
-		private double? LatestPrice { get; set; }
+		public string? LatestPrice { get; }
+
+		public IEXTickerQuote() { }
 
 		public IEXTickerQuote(DTOs.IEXTickerQuote dtoIEXTickerQuote)
 		{
 			CompanyName = dtoIEXTickerQuote.CompanyName;
-			ChangePercent = dtoIEXTickerQuote.changePercent;
-			Delay = dtoIEXTickerQuote.Delay;
-			LatestPrice = dtoIEXTickerQuote.LatestPrice;
+			ChangePercent = dtoIEXTickerQuote.changePercent.ToString();
+			LastestTradingDay = dtoIEXTickerQuote.Delay;
+			LatestPrice = dtoIEXTickerQuote.LatestPrice.ToString();
 		}
 
 		public void WriteToConsole()
 		{
 			Console.WriteLine($"Company Name: {CompanyName}");
 			Console.WriteLine($"Change Percent: {ChangePercent}");
-			Console.WriteLine($"Price Delay: {Delay}");
+			Console.WriteLine($"Price Delay: {LastestTradingDay}");
 			Console.WriteLine($"Latest Price: {LatestPrice}");
+		}
+
+		public bool IsValid()
+		{
+			return !string.IsNullOrWhiteSpace(CompanyName);
 		}
 	}
 }

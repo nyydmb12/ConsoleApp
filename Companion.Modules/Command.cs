@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Companion.Modules
+﻿namespace Companion.Modules
 {
 	/// <summary>
 	/// This class will contain the name, description, and execution logic for all valid commands.

@@ -28,7 +28,7 @@ namespace ApplicationSettings
 				appSettings = jsonDocument.Deserialize<T>();
 
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
 				Console.WriteLine("Could not load configuration");
 			}

@@ -71,39 +71,32 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 		}
 
 		/// <summary>
-		/// Prints messages from a specified user
+		/// Returns a list of 
 		/// </summary>
-		/// <param name="commandParameters">should contain only a from user search param</param>
-		public void PrintInstantMessages(string[] commandParameters)
+		/// <param name="commandParameters">should contain only a from user search param, or no param</param>
+		public IDictionary<Guid, IInstantMessage> GetInstantMessages(string? fromUser)
 		{
-			if (commandParameters.Any())
+			var matchedMessages = new Dictionary<Guid, IInstantMessage>();
+			if (!string.IsNullOrWhiteSpace(fromUser))
 			{
-				var fromUser = commandParameters[0];
-				var matchedMessages = messageInbox.Where(message => string.Compare(message.Value.FromUser, fromUser, true) == 0).ToDictionary(key => key.Key, value => value.Value);
-				if (matchedMessages.Any())
-				{
-					PrintMessages(matchedMessages);
-				}
-				else
-				{
-					Console.WriteLine($"No messages from user {fromUser} were found.");
-				}
+				matchedMessages = messageInbox.Where(message => string.Compare(message.Value.FromUser, fromUser, true) == 0).ToDictionary(key => key.Key, value => value.Value);
 			}
 			else
 			{
-				PrintMessages(messageInbox);
+				matchedMessages = messageInbox.ToDictionary(key => key.Key, value => value.Value);
 			}
+
+			RemoveMessagesFromInbox(matchedMessages);
+
+			return matchedMessages;
 		}
 
-		private void PrintMessages(IDictionary<Guid, IInstantMessage> instantMessages)
+		private void RemoveMessagesFromInbox(IDictionary<Guid, IInstantMessage> instantMessages)
 		{
 			foreach (var instantMessage in instantMessages)
 			{
-				Console.WriteLine($"{instantMessage.Value.FromUser} says: {instantMessage.Value.Message}");
 				messageInbox.TryRemove(instantMessage.Key, out IInstantMessage removedMessage);
 			}
-
-
 		}
 
 		private async Task InboxInstantMessage(ProcessMessageEventArgs messageHandler)

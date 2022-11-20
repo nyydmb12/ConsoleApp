@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace Companion.Modules
+﻿namespace Companion.Modules
 {
 	public class AvailableCommands
 	{

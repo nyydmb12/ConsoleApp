@@ -2,15 +2,17 @@
 
 namespace Companion.Modules.Extensions.FinancialModule.POCOs
 {
-	public class AlphaAdvantageQuote
+	public class AlphaAdvantageQuote : ITickerQuote
 	{
-		private string? CompanyName { get; set; }
+		public string? CompanyName { get; }
 
-		private string? ChangePercent { get; set; }
+		public string? ChangePercent { get; }
 
-		private string? LastestTradingDay { get; set; }
+		public string? LastestTradingDay { get; }
 
-		private string? LatestPrice { get; set; }
+		public string? LatestPrice { get; }
+
+		public AlphaAdvantageQuote() { }
 
 		public AlphaAdvantageQuote(DTOs.AlphaAdvantageQuote AlphaAdvantageQuote)
 		{
@@ -26,6 +28,11 @@ namespace Companion.Modules.Extensions.FinancialModule.POCOs
 			Console.WriteLine($"Change Percent: {ChangePercent}");
 			Console.WriteLine($"Price Delay: {LastestTradingDay}");
 			Console.WriteLine($"Latest Price: {LatestPrice}");
+		}
+
+		public bool IsValid()
+		{
+			return !string.IsNullOrWhiteSpace(CompanyName);
 		}
 	}
 }

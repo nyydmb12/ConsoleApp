@@ -13,7 +13,7 @@
 		public override bool ExecuteCommand(UserRequest userRequest)
 		{
 			var wasCommandExecuted = base.ExecuteCommand(userRequest);
-
+			// If the command wasn't executed, run the "help" command
 			if (!wasCommandExecuted)
 			{
 				base.ExecuteCommand(new UserRequest() { CommandName = _helpCommand });
