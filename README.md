@@ -21,7 +21,9 @@ Develop a console application that is extensible and provides quick access to de
       - msg send all message contents
         - Message will be sent to all users who have logged in so far
       - read 
-        - Retrieve all messages from your inbox
+        - Retrieve all messages from your inbox        
+      - read username
+        - Retrieve messages from a certain user
     - Users will be able to message individuals
     - Users will be able to message all created users
     - Users will be able to read messages sent to them

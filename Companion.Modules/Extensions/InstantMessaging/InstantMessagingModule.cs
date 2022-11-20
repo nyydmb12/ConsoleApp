@@ -25,8 +25,7 @@ namespace Companion.Modules.Extensions.InstantMessaging
 			_appSettings = appSettings;
 			_serviceBusInstantMessagingProvider = serviceBusInstantMessagingProvider;
 			_availableCommands.AddCommand(new Command("send", "Send a message to another user, they must have initalized their message application first. msg send dan hello dan hows it going", (commandParameters) => SendInstantMessage(commandParameters)));
-			_availableCommands.AddCommand(new Command("read", "Get messages from all other users. msg read", (commandParameters) => serviceBusInstantMessagingProvider.PrintInstantMessages()));
-			_availableCommands.AddCommand(new Command("read name", "Get messages from specific other users. msg read dan", (commandParameters) => serviceBusInstantMessagingProvider.PrintInstantMessages(commandParameters)));
+			_availableCommands.AddCommand(new Command("read", "Get messages from all other users. msg read. You can all request messages from specific users msg read dan", (commandParameters) => serviceBusInstantMessagingProvider.PrintInstantMessages(commandParameters)));
 		}
 
 		private void SendInstantMessage(string[] commandParameters)

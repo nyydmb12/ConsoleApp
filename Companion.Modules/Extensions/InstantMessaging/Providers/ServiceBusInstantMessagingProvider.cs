@@ -51,6 +51,8 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			await _azureServiceBusProvider.CreateTopicIfNotExists(outboundAllTopicName);
 			// Create subscription to the all topic
 			await _azureServiceBusProvider.CreateSubscriptionIfNotExists(outboundAllTopicName, inboundAllTopicName);
+			// Create subscription to the this user topic
+			await _azureServiceBusProvider.CreateSubscriptionIfNotExists(outboundTopicName, inboundPersonalTopicName);
 			// Subscribe to personal queue
 			await _azureServiceBusProvider.AddMessageListener(outboundTopicName, inboundPersonalTopicName, (messageHandler) => InboxInstantMessage(messageHandler), (x) => InboxErrorHandler(x));
 			// Subscribe to all queue
@@ -77,7 +79,7 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			if (commandParameters.Any())
 			{
 				var fromUser = commandParameters[0];
-				var matchedMessages = messageInbox.Where(message => string.Compare(message.Value.FromUser, fromUser, true) == 0).Select(message => message.Value).ToList();
+				var matchedMessages = messageInbox.Where(message => string.Compare(message.Value.FromUser, fromUser, true) == 0).ToDictionary(key => key.Key, value => value.Value);
 				if (matchedMessages.Any())
 				{
 					PrintMessages(matchedMessages);
@@ -89,24 +91,18 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			}
 			else
 			{
-				Console.WriteLine($"No parameters were defined.");
+				PrintMessages(messageInbox);
 			}
 		}
 
-		/// <summary>
-		/// Prints all messages in the inbox
-		/// </summary>
-		public void PrintInstantMessages()
-		{
-			PrintMessages(messageInbox.Select(message => message.Value).ToList());
-		}
-
-		private void PrintMessages(List<IInstantMessage> instantMessages)
+		private void PrintMessages(IDictionary<Guid, IInstantMessage> instantMessages)
 		{
 			foreach (var instantMessage in instantMessages)
 			{
-				Console.WriteLine($"{instantMessage.FromUser} says: {instantMessage.Message}");
+				Console.WriteLine($"{instantMessage.Value.FromUser} says: {instantMessage.Value.Message}");
+				messageInbox.TryRemove(instantMessage.Key, out IInstantMessage removedMessage);
 			}
+
 
 		}
 
