@@ -2,12 +2,14 @@
 using Azure.Messaging.ServiceBus;
 using Companion.Modules.Extensions.InstantMessaging.DTOs;
 using Companion.Modules.Extensions.InstantMessaging.POCOs;
-using System;
-using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace Companion.Modules.Extensions.InstantMessaging.Providers
 {
+	/// <summary>
+	/// This class will create the needed topics and subscriptions on the service bus for messaging. 
+	/// It will also update the users inbox as messages come in. 
+	/// </summary>
 	public class ServiceBusInstantMessagingProvider
 	{
 		private string outboundTopicName;
@@ -86,7 +88,7 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 
 		private async Task InboxErrorHandler(ProcessErrorEventArgs messageHandler)
 		{
-			var x = messageHandler.Exception;
+			EventLogger.WriteErrorToEventLog($"Exception processing service bus message {messageHandler.Exception} ");
 		}
 	}
 }

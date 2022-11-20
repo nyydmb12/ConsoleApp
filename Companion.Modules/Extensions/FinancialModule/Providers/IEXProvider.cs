@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace Companion.Modules.Extensions.FinancialModule.Providers
 {
+	/// <summary>
+	/// This class with communicate with IEX to get stock quotes. Trial ends in 1 month!
+	/// </summary>
 	public class IEXProvider : IFinancialProvider
 	{
 		// This is public key with limited permissions
@@ -51,6 +54,7 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 			}
 			catch (Exception ex)
 			{
+				EventLogger.WriteErrorToEventLog($"Exception occured looking up ticker {ex.Message} ");
 				Console.WriteLine("Exception occured processing IEX request");
 			}
 

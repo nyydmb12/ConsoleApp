@@ -1,7 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Companion.Modules.Extensions.FinancialModule.POCOs
+﻿namespace Companion.Modules.Extensions.FinancialModule.POCOs
 {
+	/// <summary>
+	/// This class is used for working within our system
+	/// </summary>
 	public class IEXTickerQuote : ITickerQuote
 	{
 		public string? CompanyName { get; }

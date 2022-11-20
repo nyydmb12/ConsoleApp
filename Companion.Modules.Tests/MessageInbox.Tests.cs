@@ -1,13 +1,5 @@
-﻿using Companion.Modules.Extensions.FinancialModule.Providers;
-using Companion.Modules.Extensions.InstantMessaging.DTOs;
+﻿using Companion.Modules.Extensions.InstantMessaging.DTOs;
 using Companion.Modules.Extensions.InstantMessaging.POCOs;
-using Companion.Modules.Tests.ResponseMocks;
-using Microsoft.Azure.Amqp.Framing;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using Moq;
-using Moq.Protected;
-using System;
-using System.Net;
 using Xunit;
 
 namespace Companion.Modules.Tests

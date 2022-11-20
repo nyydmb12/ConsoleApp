@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
@@ -30,6 +31,14 @@ namespace ApplicationSettings
 			}
 			catch (Exception ex)
 			{
+				// Can't reference EventLogger class since it will create a circular dependency. 
+				// Perhaps that is indicative that it should be refactored
+				using (EventLog eventLog = new EventLog("Application"))
+				{
+					eventLog.Source = "Application";
+					eventLog.WriteEntry(ex.Message, EventLogEntryType.Error, 1, 1);
+				}
+
 				Console.WriteLine("Could not load configuration");
 			}
 			return appSettings;

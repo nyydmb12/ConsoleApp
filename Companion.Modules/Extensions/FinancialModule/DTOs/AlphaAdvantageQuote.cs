@@ -2,6 +2,9 @@
 
 namespace Companion.Modules.Extensions.FinancialModule.DTOs
 {
+	/// <summary>
+	/// This class is only for communicating with Alpha Advantage
+	/// </summary>
 	public class AlphaAdvantageQuote
 	{
 		[JsonPropertyName("01. symbol")]

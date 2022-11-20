@@ -1,7 +1,7 @@
 ﻿namespace Companion.Modules.Extensions
 {
 	/// <summary>
-	/// This class introduces the help command, and will be inherited by more advanced modules.
+	/// The class will orchestrate commands with their corresponding modules
 	/// </summary>
 	public class ModuleManager
 	{
@@ -37,6 +37,7 @@
 			}
 			catch (Exception ex)
 			{
+				EventLogger.WriteErrorToEventLog($"Exception processing service user request {ex.Message} ");
 				Console.WriteLine("Excetion Occured Processing Request");
 			}
 		}

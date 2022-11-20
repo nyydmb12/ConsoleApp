@@ -2,7 +2,7 @@
 {
 	/// <summary>
 	/// Process user input. User input is delimited in the following way
-	/// moduleName -commandName parameter1 parameter2
+	/// moduleName commandName parameter1 parameter2 etc
 	/// </summary>
 	public class UserRequest
 	{
