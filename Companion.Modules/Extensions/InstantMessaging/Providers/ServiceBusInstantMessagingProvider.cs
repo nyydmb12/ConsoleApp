@@ -86,7 +86,7 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 
 		private async Task InboxErrorHandler(ProcessErrorEventArgs messageHandler)
 		{
-			var x = messageHandler.Exception;
+			EventLogger.WriteErrorToEventLog($"Exception processing service bus message {messageHandler.Exception} ");
 		}
 	}
 }

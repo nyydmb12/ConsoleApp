@@ -37,6 +37,7 @@
 			}
 			catch (Exception ex)
 			{
+				EventLogger.WriteErrorToEventLog($"Exception processing service user request {ex.Message} ");
 				Console.WriteLine("Excetion Occured Processing Request");
 			}
 		}

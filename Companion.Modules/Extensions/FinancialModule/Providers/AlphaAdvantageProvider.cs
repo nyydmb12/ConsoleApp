@@ -54,6 +54,7 @@ namespace Companion.Modules.Extensions.FinancialModule.Providers
 			}
 			catch (Exception ex)
 			{
+				EventLogger.WriteErrorToEventLog($"Exception occured looking up ticker {ex.Message} ");
 				Console.WriteLine("Exception occured processing Alpha Advantage request");
 			}
 
