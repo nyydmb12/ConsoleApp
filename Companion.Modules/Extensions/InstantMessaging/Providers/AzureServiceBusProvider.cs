@@ -28,7 +28,7 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 
 		}
 
-		public async void CreateTopicIfNotExists(string topicName)
+		public async Task CreateTopicIfNotExists(string topicName)
 		{
 			if (!await _adminClient.TopicExistsAsync(topicName))
 			{
@@ -36,7 +36,7 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			}
 		}
 
-		public async void CreateSubscriptionIfNotExists(string topicName, string subscriptionName)
+		public async Task CreateSubscriptionIfNotExists(string topicName, string subscriptionName)
 		{
 			if (!await _adminClient.SubscriptionExistsAsync(topicName, subscriptionName))
 			{
@@ -44,19 +44,19 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			}
 		}
 
-		public async void SendMessage(string topicName, string message)
+		public async Task SendMessage(string topicName, string message)
 		{
 			var _sender = _client.CreateSender(topicName);
 			await _sender.SendMessageAsync(new ServiceBusMessage(message));
 			await _sender.CloseAsync();
 		}
 
-		public void AddMessageListener(string topicName, string subscriptionName, Func<ProcessMessageEventArgs, Task> messageHandler, Func<ProcessErrorEventArgs, Task> errhand)
+		public async Task AddMessageListener(string topicName, string subscriptionName, Func<ProcessMessageEventArgs, Task> messageHandler, Func<ProcessErrorEventArgs, Task> errhand)
 		{
 			var processor = _client.CreateProcessor(topicName, subscriptionName);
 			processor.ProcessMessageAsync += messageHandler;
 			processor.ProcessErrorAsync += errhand;
-			processor.StartProcessingAsync();
+			await processor.StartProcessingAsync();
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace ExtensibleDesktopCompanion
 			var moduleManager = new ModuleManager();
 			moduleManager.AddModule(new FinancialModule(new IEXProvider(sharedClient)));
 			moduleManager.AddModule(new FinancialModule(new AlphaAdvantageProvider(sharedClient)));
-			moduleManager.AddModule(new InstantMessagingModule(new ServiceBusInstantMessagingProvider(configurationData), configurationData));
+			moduleManager.AddModule(new InstantMessagingModule(ServiceBusInstantMessagingProvider.CreateAsync(configurationData).Result, configurationData));
 			string userInput = string.Empty;
 
 

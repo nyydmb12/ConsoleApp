@@ -37,6 +37,8 @@ namespace Companion.Modules.Extensions.InstantMessaging
 				ToUser = commandParameters[0],
 				Message = string.Join(' ', commandParameters.Skip(1))
 			};
+
+			// No need to await message being sent
 			_serviceBusInstantMessagingProvider.SendInstantMessage(instantMessage);
 		}
 	}
