@@ -6,6 +6,7 @@
 	public abstract class ModuleBase : IModuleBase
 	{
 		public static string _helpCommand = "help";
+		public static string _exitCommand = "exit";
 
 		private string ModuleKeyword;
 

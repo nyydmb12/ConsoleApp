@@ -1,6 +1,8 @@
 ﻿using ApplicationSettings;
 using Azure.Messaging.ServiceBus;
 using Companion.Modules.Extensions.InstantMessaging.DTOs;
+using Companion.Modules.Extensions.InstantMessaging.POCOs;
+using System;
 using System.Collections.Concurrent;
 using System.Text.Json;
 
@@ -20,22 +22,23 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 
 		private AppSettings _appSettings;
 
-		private ConcurrentDictionary<Guid, IInstantMessage> messageInbox;
+		private MessageInbox _messageInbox;
+
 
 		/// <summary>
 		/// In order to await topic initializiation make the constructor private and provide an async dreate method.
 		/// </summary>
-		public static async Task<ServiceBusInstantMessagingProvider> CreateAsync(AppSettings appSettings)
+		public static async Task<ServiceBusInstantMessagingProvider> CreateAsync(AppSettings appSettings, MessageInbox messageInbox)
 		{
-			var serviceBusInstantMessagingProvider = new ServiceBusInstantMessagingProvider(appSettings);
+			var serviceBusInstantMessagingProvider = new ServiceBusInstantMessagingProvider(appSettings, messageInbox);
 			await serviceBusInstantMessagingProvider.InitializeTopicsAndSubscriptions();
 			return serviceBusInstantMessagingProvider;
 		}
 
-		private ServiceBusInstantMessagingProvider(AppSettings appSettings)
+		private ServiceBusInstantMessagingProvider(AppSettings appSettings, MessageInbox messageInbox)
 		{
 			_appSettings = appSettings;
-			messageInbox = new ConcurrentDictionary<Guid, IInstantMessage>();
+			_messageInbox = messageInbox;
 			outboundTopicName = $"to_{_appSettings!.AppData!.UserName!.ToLower()}";
 			inboundPersonalTopicName = $"{_appSettings!.AppData!.UserName!.ToLower()}-subscriber";
 			inboundAllTopicName = $"all-subscriber-{_appSettings!.AppData!.UserName!.ToLower()}";
@@ -70,42 +73,13 @@ namespace Companion.Modules.Extensions.InstantMessaging.Providers
 			await _azureServiceBusProvider.SendMessage(receiverTopicName, JsonSerializer.Serialize(instantMessage));
 		}
 
-		/// <summary>
-		/// Returns a list of 
-		/// </summary>
-		/// <param name="commandParameters">should contain only a from user search param, or no param</param>
-		public IDictionary<Guid, IInstantMessage> GetInstantMessages(string? fromUser)
-		{
-			var matchedMessages = new Dictionary<Guid, IInstantMessage>();
-			if (!string.IsNullOrWhiteSpace(fromUser))
-			{
-				matchedMessages = messageInbox.Where(message => string.Compare(message.Value.FromUser, fromUser, true) == 0).ToDictionary(key => key.Key, value => value.Value);
-			}
-			else
-			{
-				matchedMessages = messageInbox.ToDictionary(key => key.Key, value => value.Value);
-			}
-
-			RemoveMessagesFromInbox(matchedMessages);
-
-			return matchedMessages;
-		}
-
-		private void RemoveMessagesFromInbox(IDictionary<Guid, IInstantMessage> instantMessages)
-		{
-			foreach (var instantMessage in instantMessages)
-			{
-				messageInbox.TryRemove(instantMessage.Key, out IInstantMessage removedMessage);
-			}
-		}
-
 		private async Task InboxInstantMessage(ProcessMessageEventArgs messageHandler)
 		{
 			var instantMessage = JsonSerializer.Deserialize<InstantMessage>(messageHandler.Message.Body.ToString()) ?? new InstantMessage();
 			// Don't add messages sent to the all topic from this user
 			if (string.Compare(instantMessage.FromUser, _appSettings.AppData.UserName, true) != 0)
 			{
-				messageInbox.TryAdd(Guid.NewGuid(), instantMessage);
+				_messageInbox.TryAddMessage(instantMessage);
 			}
 			await messageHandler.CompleteMessageAsync(messageHandler.Message);
 		}

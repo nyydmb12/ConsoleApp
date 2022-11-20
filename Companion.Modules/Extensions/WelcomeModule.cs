@@ -5,9 +5,21 @@
 	/// </summary>
 	public class WelcomeModule : ModuleBase
 	{
+		private const string _moduleKeyword = "app";
+		public WelcomeModule() : base(_moduleKeyword)
+		{
+			AddWelcomeCommands();
+		}
+
 		public WelcomeModule(string moduleKeyword) : base(moduleKeyword)
 		{
+			AddWelcomeCommands();
+		}
+
+		private void AddWelcomeCommands()
+		{
 			_availableCommands.AddCommand(new Command(_helpCommand, "Print all commands and their descriptions.", (commandText) => _availableCommands.PrintAvailableCommands()));
+			_availableCommands.AddCommand(new Command(_exitCommand, "Exit the program.", (commandText) => Environment.Exit(0)));
 		}
 
 		public override bool ExecuteCommand(UserRequest userRequest)

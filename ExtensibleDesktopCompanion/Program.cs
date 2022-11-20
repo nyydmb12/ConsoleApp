@@ -4,6 +4,7 @@ using Companion.Modules.Extensions;
 using Companion.Modules.Extensions.FinancialModule;
 using Companion.Modules.Extensions.FinancialModule.Providers;
 using Companion.Modules.Extensions.InstantMessaging;
+using Companion.Modules.Extensions.InstantMessaging.POCOs;
 using Companion.Modules.Extensions.InstantMessaging.Providers;
 
 namespace ExtensibleDesktopCompanion
@@ -19,19 +20,24 @@ namespace ExtensibleDesktopCompanion
 				PooledConnectionLifetime = TimeSpan.FromMinutes(15) // Recreate every 15 minutes
 			};
 			var sharedClient = new HttpClient(handler);
+			var messageInbox = new MessageInbox();
 			var moduleManager = new ModuleManager();
+			moduleManager.AddModule(new WelcomeModule());
 			moduleManager.AddModule(new FinancialModule(new IEXProvider(sharedClient)));
 			moduleManager.AddModule(new FinancialModule(new AlphaAdvantageProvider(sharedClient)));
-			moduleManager.AddModule(new InstantMessagingModule(ServiceBusInstantMessagingProvider.CreateAsync(configurationData).Result, configurationData));
+			moduleManager.AddModule(new InstantMessagingModule(ServiceBusInstantMessagingProvider.CreateAsync(configurationData, messageInbox).Result, messageInbox, configurationData));
 			string userInput = string.Empty;
 
 
-			Console.WriteLine("Wecome to the Extensible Desktop Companion, enter \"help\" to see avaialable modules");
+			Console.WriteLine("Wecome to the Extensible Desktop Companion, enter \"help\" to see avaialable modules.");
+			Console.WriteLine("Enter \"help\" after the module name to see the avialable commands.");
 
-			while (userInput != "exit")
+			// Loop until the app exit command fires
+			while (true)
 			{
 				userInput = Console.ReadLine() ?? string.Empty;
 				var userRequest = new UserRequest(userInput);
+				
 				moduleManager.ProcessUserRequest(userRequest);
 			}
 		}
@@ -59,9 +65,10 @@ namespace ExtensibleDesktopCompanion
 		private static string ForceUserInput(string prompt)
 		{
 			string userInput = string.Empty;
-			while (string.IsNullOrWhiteSpace(userInput))
+			while (string.IsNullOrWhiteSpace(userInput) && userInput != "skip")
 			{
 				Console.WriteLine(prompt);
+				Console.WriteLine("You can also enter skip and manually update the appSettings.json file with this value.");
 				userInput = Console.ReadLine() ?? string.Empty;
 			}
 
